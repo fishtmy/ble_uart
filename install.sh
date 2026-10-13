@@ -41,7 +41,7 @@ Requires=bluetooth.service
 Type=simple
 User=root
 ExecStart=$INSTALL_PATH
-# ExecStartPost=/usr/bin/hciconfig hci0 leadv
+ExecStartPost=/bin/sh -c 'sleep 2 && /usr/bin/hciconfig hci0 leadv'
 Restart=always
 RestartSec=5
 
