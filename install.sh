@@ -17,13 +17,17 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# 2. 將編譯好的執行檔複製到系統全域固定路徑（例如 /usr/local/bin/）
+# 2. 停止現有服務（避免 Text file busy）
+echo "[+] 停止現有的 bleserver 服務..."
+systemctl stop bleserver.service 2>/dev/null
+
+# 3. 將編譯好的執行檔複製到系統全域固定路徑
 INSTALL_PATH="/usr/local/bin/ble_server"
 echo "[+] 正在將執行檔安裝至系統目錄: $INSTALL_PATH"
 cp ble_server $INSTALL_PATH
 chmod +x $INSTALL_PATH
 
-# 3. 動態產生 systemd 服務檔（固定指向系統路徑，不再依賴下載資料夾）
+# 4. 動態產生 systemd 服務檔（固定指向系統路徑，不再依賴下載資料夾）
 SERVICE_FILE="/etc/systemd/system/bleserver.service"
 echo "[+] 正在建立系統服務檔: $SERVICE_FILE"
 
